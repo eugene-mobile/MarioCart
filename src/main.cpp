@@ -40,7 +40,7 @@ void calibrate() {
 
 void loop() {
   bool directionForward = !digitalRead(FORWARD_PIN);
-  bool directionBacwards = !digitalRead(BACKWARDS_PIN);
+  bool directionBackwards = !digitalRead(BACKWARDS_PIN);
   bool pedalEngaged = !digitalRead(PEDAL_PIN);
 
   if (!pedalEngaged) {
@@ -50,7 +50,7 @@ void loop() {
     return;
   }
 
-  if (!directionForward & !directionBacwards) {
+  if (!directionForward & !directionBackwards) {
     myESC.stop();
     currentESCSpeed = SPEED_ZERO;
     delay(100);
@@ -62,7 +62,7 @@ void loop() {
     currentESCSpeed = min(currentESCSpeed, SPEED_MAX_FORWARD);
   }
 
-  if (directionBacwards) {
+  if (directionBackwards) {
     currentESCSpeed = currentESCSpeed - 30;
     currentESCSpeed = max(currentESCSpeed, SPEED_MAX_BACKWARD);
   }
