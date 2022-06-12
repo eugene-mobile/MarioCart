@@ -2,8 +2,9 @@
 
 #define ESC_INIT_MIN_VALUE (1000)     // Set the Minimum ESC PWM in microseconds
 #define ESC_INIT_MAX_VALUE (2000) 
-#define SPEED_ZERO (1450)             // Set the speed where motor is stopped
-#define SPEED_MAX_FORWARD (1800)                                  // Set the Maximum ESC PWM in microseconds
+#define SPEED_ZERO (1450)             // Set the PWM to stop a motor
+#define SPEED_MAX_FORWARD (1800)      // Set the PWM for a maximum motor forward speed
+#define SPEED_MAX_BACKWARD (1300)     // Set the PWM for a maximum motor reverse speed
 #define PEDAL_PIN (2)
 #define FORWARD_PIN (4)
 #define BACKWARDS_PIN (3)
@@ -58,12 +59,12 @@ void loop() {
 
   if (directionForward) {
     currentESCSpeed = currentESCSpeed + 30;
-    currentESCSpeed = min(currentESCSpeed, SPEED_MAX);
+    currentESCSpeed = min(currentESCSpeed, SPEED_MAX_FORWARD);
   }
 
   if (directionBacwards) {
     currentESCSpeed = currentESCSpeed - 30;
-    currentESCSpeed = max(currentESCSpeed, SPEED_MIN);
+    currentESCSpeed = max(currentESCSpeed, SPEED_MAX_BACKWARD);
   }
 
   myESC.speed(currentESCSpeed);
