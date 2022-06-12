@@ -58,12 +58,12 @@ void loop() {
   }
 
   if (directionForward) {
-    currentESCSpeed = currentESCSpeed + 30;
+    currentESCSpeed = currentESCSpeed + 25;
     currentESCSpeed = min(currentESCSpeed, SPEED_MAX_FORWARD);
   }
 
   if (directionBackwards) {
-    currentESCSpeed = currentESCSpeed - 30;
+    currentESCSpeed = currentESCSpeed - 10;
     currentESCSpeed = max(currentESCSpeed, SPEED_MAX_BACKWARD);
   }
 
