@@ -3,7 +3,7 @@
 #define ESC_INIT_MIN_VALUE (1000)     // Set the Minimum ESC PWM in microseconds
 #define ESC_INIT_MAX_VALUE (2000) 
 #define SPEED_ZERO (1450)             // Set the PWM to stop a motor
-#define SPEED_MAX_FORWARD (1800)      // Set the PWM for a maximum motor forward speed
+#define SPEED_MAX_FORWARD (1650)      // Set the PWM for a maximum motor forward speed
 #define SPEED_MAX_BACKWARD (1300)     // Set the PWM for a maximum motor reverse speed
 #define PEDAL_PIN (2)
 #define FORWARD_PIN (4)
