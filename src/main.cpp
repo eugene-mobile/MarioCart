@@ -3,11 +3,16 @@
 #define ESC_INIT_MIN_VALUE (1000)     // Set the Minimum ESC PWM in microseconds
 #define ESC_INIT_MAX_VALUE (2000) 
 #define SPEED_ZERO (1450)             // Set the PWM to stop a motor
-#define SPEED_MAX_FORWARD (1650)      // Set the PWM for a maximum motor forward speed
+#define SLOW_FORWARD_SPEED (1550)      // Set the PWM for a slow motor forward speed
+#define DEFAULT_MAX_FORWARD_SPEED (1650)      // Set the PWM for a default motor forward speed
+#define NO_LIMIT_FORWARD_SPEED (2000)      // Set the PWM for plaid mode motor forward speed
 #define SPEED_MAX_BACKWARD (1300)     // Set the PWM for a maximum motor reverse speed
 #define PEDAL_PIN (2)
 #define FORWARD_PIN (4)
 #define BACKWARDS_PIN (3)
+#define MODE_1_PIN (8)
+#define MODE_2_PIN (9)
+
 #define STOPPED (0)
 #define ACCELERATING (1)
 #define DECELERATING (2)
@@ -21,6 +26,8 @@ void setup() {
   pinMode(PEDAL_PIN, INPUT_PULLUP);
   pinMode(FORWARD_PIN, INPUT_PULLUP);
   pinMode(BACKWARDS_PIN, INPUT_PULLUP);
+  pinMode(MODE_1_PIN, INPUT_PULLUP);
+  pinMode(MODE_2_PIN, INPUT_PULLUP);
 
   myESC.arm(); 
 
@@ -42,7 +49,10 @@ void loop() {
   bool directionForward = !digitalRead(FORWARD_PIN);
   bool directionBackwards = !digitalRead(BACKWARDS_PIN);
   bool pedalEngaged = !digitalRead(PEDAL_PIN);
-
+  bool modeOne = !digitalRead(MODE_1_PIN);
+  bool modeTwo = !digitalRead(MODE_2_PIN);
+  int selectedMaxSpeed = DEFAULT_MAX_FORWARD_SPEED;
+  
   if (!pedalEngaged) {
     myESC.stop();
     currentESCSpeed = SPEED_ZERO;
@@ -57,9 +67,16 @@ void loop() {
     return;
   }
 
+
+  if (modeOne) {
+    selectedMaxSpeed = SLOW_FORWARD_SPEED;
+  } else if (modeTwo) {
+    selectedMaxSpeed = NO_LIMIT_FORWARD_SPEED;
+  }
+
   if (directionForward) {
     currentESCSpeed = currentESCSpeed + 25;
-    currentESCSpeed = min(currentESCSpeed, SPEED_MAX_FORWARD);
+    currentESCSpeed = min(currentESCSpeed, selectedMaxSpeed);
   }
 
   if (directionBackwards) {
